@@ -4,5 +4,7 @@ main: fr.lywen.bank.Main
 version: 1.0
 commands:
   don:
+  bank:
+  give:
 
 

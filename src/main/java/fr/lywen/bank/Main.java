@@ -1,7 +1,9 @@
 package fr.lywen.bank;
 
 import fr.lywen.bank.bank.BankManager;
+import fr.lywen.bank.commands.BankCommand;
 import fr.lywen.bank.commands.DonCommand;
+import fr.lywen.bank.commands.GiveCommand;
 import fr.lywen.bank.database.DataBaseManager;
 import fr.lywen.bank.listeners.PlayerListener;
 import fr.lywen.bank.player.PlayerManager;
@@ -21,7 +23,8 @@ public class Main extends JavaPlugin {
     }
     @Override
     public void onEnable() {
-        instance = this;
+        saveDefaultConfig();
+
 
         dataBaseManager = new DataBaseManager(this);
         dataBaseManager.onEnable();
@@ -31,8 +34,8 @@ public class Main extends JavaPlugin {
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(instance), instance);
         getCommand("don").setExecutor(new DonCommand(this));
-
-        this.dataBaseManager.getPlayerDataManager().test();
+        getCommand("bank").setExecutor(new BankCommand(this));
+        getCommand("give").setExecutor(new GiveCommand(this));
 
         super.onEnable();
 
@@ -49,5 +52,17 @@ public class Main extends JavaPlugin {
 
     public BankManager getBankManager() {
         return bankManager;
+    }
+
+    public DataBaseManager getDataBaseManager() {
+        return dataBaseManager;
+    }
+
+    public int getPassiveMobMoney(){
+        return getConfig().getInt("passive");
+    }
+
+    public int getHostileMobMoney(){
+        return getConfig().getInt("hostile");
     }
 }

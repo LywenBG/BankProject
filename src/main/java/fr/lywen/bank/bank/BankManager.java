@@ -7,6 +7,7 @@ public class BankManager {
     private Main instance;
     private Bank bank;
 
+
     public BankManager(Main instance) {
         this.instance = instance;
         this.bank = new Bank(instance);

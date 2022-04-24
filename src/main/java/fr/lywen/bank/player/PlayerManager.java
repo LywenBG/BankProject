@@ -1,6 +1,8 @@
 package fr.lywen.bank.player;
 
 import fr.lywen.bank.Main;
+import org.bukkit.Bukkit;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -12,6 +14,7 @@ public class PlayerManager {
 
     public PlayerManager(Main instance){
         this.instance = instance;
+        bankPlayers = new ArrayList<>();
     }
 
     public void addBankPlayer(BankPlayer bankPlayer){
@@ -26,10 +29,13 @@ public class PlayerManager {
 
     public BankPlayer getBankPlayer(UUID uuid){
         for(BankPlayer bankPlayer : bankPlayers){
+
             if(bankPlayer.getUuid().equals(uuid)){
+
                 return bankPlayer;
             }
         }
+
         return null;
     }
 
