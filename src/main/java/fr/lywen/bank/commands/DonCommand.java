@@ -15,6 +15,7 @@ public class DonCommand implements CommandExecutor {
 
     private Main instance;
 
+
     public DonCommand(Main instance) {
         this.instance = instance;
     }
@@ -71,10 +72,14 @@ public class DonCommand implements CommandExecutor {
                         if(receiver ==null){
 
                             Document receiverDocument = instance.getDataBaseManager().getPlayerDataManager().getDocument(args[0]);
+
                             if(receiverDocument == null) {player.sendMessage("Ce Joueur n'existe pas"); return true; }
                             if(!receiverDocument.getBoolean("transaction")){ player.sendMessage("Ce joueur ne peut pas recevoir de l'argent, son compte est bloqué"); return true;}
 
                             receiverDocument.append("coins", receiverDocument.getInteger("coins")+coins);
+                            instance.getDataBaseManager().getMongoConnection().getMongoDatabase().getCollection("MoneyCollection")
+                                    .updateOne(new Document("name", args[0]), new Document("$set", receiverDocument));
+
 
                         } else{
                             BankPlayer bankPlayerReceiver = instance.getPlayerManager().getBankPlayer(receiver.getUniqueId());
@@ -86,7 +91,7 @@ public class DonCommand implements CommandExecutor {
                         }
 
                         bankPlayer.removeCoins(coins);
-                        player.sendMessage("Vous avez envoyé " + coins + " euros à " + receiver.getName() + " Il sera très content !");
+                        player.sendMessage("Vous avez envoyé " + coins + " euros à " + args[0].toString() + " Il sera très content !");
 
 
                     } catch (NumberFormatException e) {
