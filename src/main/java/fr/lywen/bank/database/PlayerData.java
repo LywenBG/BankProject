@@ -6,8 +6,12 @@ import com.mongodb.client.MongoDatabase;
 import fr.lywen.bank.player.BankPlayer;
 import fr.lywen.bank.role.Role;
 import org.bson.Document;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.UUID;
 
 
 public class PlayerData {
@@ -56,6 +60,34 @@ public class PlayerData {
 
     public Document getDocument(String string){
         return mongoDatabase.getCollection("MoneyCollection").find(new Document("name", string)).first();
+    }
+
+    public ArrayList<Document> getArrayListDocumentReceiver(UUID uuid)
+    {
+        ArrayList<Document> documents = new ArrayList<>();
+
+
+        for(Document docs : mongoDatabase.getCollection("TransfertCollection").find(new Document("receiver", uuid.toString())))
+        {
+            documents.add(docs);
+        }
+
+
+        return documents;
+    }
+
+    public ArrayList<Document> getArrayListDocumentGiver(UUID uuid)
+    {
+        ArrayList<Document> documents = new ArrayList<>();
+
+
+        for(Document docs : mongoDatabase.getCollection("TransfertCollection").find(new Document("giver", uuid.toString())))
+        {
+            documents.add(docs);
+        }
+
+
+        return documents;
     }
 
     public void loadAccount(Player player){

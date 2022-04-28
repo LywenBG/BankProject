@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class DonCommand implements CommandExecutor {
 
     private Main instance;
@@ -50,6 +52,10 @@ public class DonCommand implements CommandExecutor {
                             player.sendMessage("Vous avez envoyé " + coins + " euros à la banque ! Merci :)");
 
 
+                            instance.getDataBaseManager().getTransactionData()
+                                    .sendTransaction(bankPlayer.getUuid().toString(),"bank",coins);
+
+
 
                 }catch(NumberFormatException e){
                     System.out.printf(e.getMessage());
@@ -80,18 +86,26 @@ public class DonCommand implements CommandExecutor {
                             instance.getDataBaseManager().getMongoConnection().getMongoDatabase().getCollection("MoneyCollection")
                                     .updateOne(new Document("name", args[0]), new Document("$set", receiverDocument));
 
+                            instance.getDataBaseManager().getTransactionData()
+                                    .sendTransaction(bankPlayer.getUuid().toString(),receiverDocument.getString("uuid"),coins);
+
 
                         } else{
                             BankPlayer bankPlayerReceiver = instance.getPlayerManager().getBankPlayer(receiver.getUniqueId());
 
+                            if(bankPlayerReceiver.getUuid().equals(player.getUniqueId())) { player.sendMessage("Vous ne pouvez pas envoyer de l'argent à vous même !"); return true;}
                             if(!bankPlayerReceiver.getTransaction()) { player.sendMessage("Ce joueur ne peut pas recevoir de l'argent, son compte est bloqué"); return true;}
 
                             bankPlayerReceiver.addCoins(coins);
                             receiver.sendMessage("Vous venez de recevoir " + coins + " euros de la part de " + player.getName() + ". Dites lui merci !");
+
+                            instance.getDataBaseManager().getTransactionData()
+                                    .sendTransaction(bankPlayer.getUuid().toString(),bankPlayerReceiver.getUuid().toString(),coins);
                         }
 
                         bankPlayer.removeCoins(coins);
-                        player.sendMessage("Vous avez envoyé " + coins + " euros à " + args[0].toString() + " Il sera très content !");
+                        player.sendMessage("Vous avez envoyé " + coins + " euros à " + args[0] + " Il sera très content !");
+
 
 
                     } catch (NumberFormatException e) {

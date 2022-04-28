@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Bank:jar">
+    <output-path>$USER_HOME$/OneDrive/Documents/Minecraft Server/spigot/plugins</output-path>
+    <root id="archive" name="Bank.jar">
+      <element id="module-output" name="Bank" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver-core/3.2.2/mongodb-driver-core-3.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver/3.2.2/mongodb-driver-3.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/bson/3.2.2/bson-3.2.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

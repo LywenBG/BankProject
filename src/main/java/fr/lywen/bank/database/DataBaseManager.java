@@ -2,6 +2,7 @@ package fr.lywen.bank.database;
 
 import fr.lywen.bank.Main;
 import fr.lywen.bank.database.mongo.MongoConnection;
+import fr.lywen.bank.database.mongo.TransactionData;
 import org.bukkit.entity.Player;
 
 public class DataBaseManager {
@@ -9,6 +10,7 @@ public class DataBaseManager {
     private Main instance;
     private MongoConnection mongoConnection;
     private PlayerData playerDataManager;
+    private TransactionData transactionData;
 
 
 
@@ -22,6 +24,7 @@ public class DataBaseManager {
         this.mongoConnection.init();
 
         this.playerDataManager = new PlayerData(this);
+        this.transactionData = new TransactionData(this);
     }
 
     public Main getInstance() {
@@ -32,6 +35,9 @@ public class DataBaseManager {
         return playerDataManager;
     }
 
+    public TransactionData getTransactionData() {
+        return transactionData;
+    }
 
     public MongoConnection getMongoConnection() {
         return mongoConnection;

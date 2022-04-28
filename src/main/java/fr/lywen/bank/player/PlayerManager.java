@@ -1,9 +1,6 @@
 package fr.lywen.bank.player;
 
 import fr.lywen.bank.Main;
-import org.bukkit.Bukkit;
-import sun.rmi.runtime.Log;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
